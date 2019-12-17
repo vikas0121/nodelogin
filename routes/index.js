@@ -7,8 +7,7 @@ router.get('/', function (req, res, next) {
 });
 
 
-router.post('/', function (req, res, next) {
-	console.log(req.body);
+router.post('/', async function (req, res, next) {
 	var personInfo = req.body;
 	if (!personInfo.email || !personInfo.username || !personInfo.password) {
 		res.send();
@@ -45,6 +44,8 @@ router.get('/mobileverification', function (req, res, next) {
 router.post('/login', async function (req, res, next) {
 	try {
 		const user = await User.findByCredentials(req.body.email, req.body.password);
+		sess = req.session;
+		sess.email = req.body.email;
 		res.send({
 			"Success": "Success!"
 		});
@@ -61,9 +62,9 @@ router.post('/login', async function (req, res, next) {
 });
 
 router.get('/profile', function (req, res, next) {
-	console.log('profile', req);
+	sess = req.session;
 	User.findOne({
-		email: 'vikas@gmail.com'
+		email: sess.email
 	}, function (err, data) {
 		if (!data) {
 			res.redirect('/');

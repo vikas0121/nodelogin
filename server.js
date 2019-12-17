@@ -2,8 +2,7 @@ var express = require('express');
 var path = require('path');
 var app = express();
 var bodyParser = require('body-parser');
-var session = require('express-session');
-var MongoStore = require('connect-mongo')(session);
+var session = require('express-session')
 const connectDB = require('./config/db');
 const config = require('config');
 const db = config.get('mongoURI');
@@ -12,14 +11,11 @@ const db = config.get('mongoURI');
 // Connect to database
 connectDB();
 
-// app.use(session({
-//   secret: 'work hard',
-//   resave: true,
-//   saveUninitialized: false,
-//   store: new MongoStore({
-//     mongooseConnection: db
-//   })
-// }));
+app.use(session({
+  secret: 'ssshhhhh',
+  saveUninitialized: true,
+  resave: true
+}));
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
