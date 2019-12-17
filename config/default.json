@@ -1,0 +1,4 @@
+{
+  "mongoURI": "mongodb://localhost/loginapp",
+  "baseUrl": "http://localhost:3000"
+}

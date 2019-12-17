@@ -1,0 +1,40 @@
+/*body,
+ table,
+    thead,
+    tr,
+    tbody,
+    th,
+    td {
+        text-align: center;
+    }*/
+body {
+    text-align: center !important;
+}
+
+p {
+    margin-top: 20px;
+    font-size: 30px;
+}
+
+input {
+    text-align: center;
+}
+
+.mssg {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+}
+
+body {
+    background-color: white;
+}
+
+body>div {
+    margin: auto;
+    margin-top: 20%;
+}
+
+h3 {
+    text-align: center;
+}
