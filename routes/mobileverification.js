@@ -6,7 +6,7 @@ const nexmo = new Nexmo({
 var express = require('express');
 var router = express.Router();
 
-router.post('/register', (req, res) => {
+router.post('/register', async (req, res) => {
     // A user registers with a mobile phone number
     let phoneNumber = req.body.number;
     console.log(phoneNumber);
@@ -30,11 +30,12 @@ router.post('/register', (req, res) => {
     });
 });
 
-router.post('/mobile/verify', (req, res) => {
+router.post('/verify', async (req, res) => {
     console.log('verify');
     let pin = req.body.pin;
     let requestId = req.body.requestId;
-
+    console.log(requestId);
+    console.log(pin);
     nexmo.verify.check({
         request_id: requestId,
         code: pin

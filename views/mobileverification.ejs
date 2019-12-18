@@ -9,7 +9,6 @@
 	<link rel="stylesheet" href="./css/main.css">
 	<script type="text/javascript">
 		$(document).ready(function () {
-
 			$("#verifyotp").submit(function (event) {
 				event.preventDefault();
 				$.ajax({
@@ -23,7 +22,19 @@
 					error: function () {}
 				})
 			});
-
+			$("#sendotp").submit(function (event) {
+				event.preventDefault();
+				$.ajax({
+					type: 'POST',
+					url: '/mobile/register',
+					data: $('#sendotp').serialize(),
+					dataType: "json",
+					success: function (response) {
+						console.log(response);
+					},
+					error: function () {}
+				})
+			});
 		});
 	</script>
 </head>

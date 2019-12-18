@@ -15,7 +15,8 @@ router.post('/', async function (req, res, next) {
 	var newPerson = new User({
 		email: personInfo.email,
 		username: personInfo.username,
-		password: personInfo.password
+		password: personInfo.password,
+		mobilenumber: personInfo.mobilenumber
 	});
 	newPerson.save(function (err, Person) {
 		if (err) {

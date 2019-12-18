@@ -21,7 +21,11 @@ userSchema = new Schema({
 		trim: true,
 		required: true
 	},
-	password: String
+	password: String,
+	mobilenumber: {
+		type: Number,
+		trim: true
+	}
 });
 
 userSchema.statics.findByCredentials = async (email, password) => {
