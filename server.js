@@ -32,8 +32,6 @@ app.use(express.static(__dirname + '/views'));
 
 var index = require('./routes/index');
 app.use('/', index);
-var mobileverification = require('./routes/mobileverification');
-app.use('/mobile', mobileverification);
 var fileUpload = require('./routes/fileupload');
 app.use('/fileUpload', fileUpload);
 
