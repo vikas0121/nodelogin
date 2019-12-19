@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../models/user');
+const config = require('config');
+const jwt = require('jsonwebtoken');
 
 router.get('/', function (req, res, next) {
 	return res.render('index.ejs');
@@ -47,10 +49,27 @@ router.post('/login', async function (req, res, next) {
 		const user = await User.findByCredentials(req.body.email, req.body.password);
 		sess = req.session;
 		sess.email = req.body.email;
-		res.send({
-			"Success": "Success!"
-		});
+
+		// Create a token
+		const payload = {
+			email: user.email
+		};
+		const options = {
+			expiresIn: '2d',
+			issuer: 'sample'
+		};
+		const secret = config.get('JWT_SECRET');
+		const token = jwt.sign(payload, secret, options);
+		const result = {
+			token,
+			user
+		}
+		res.status(200).send(result);
+		// res.send({
+		// 	"Success": "Success!"
+		// });
 	} catch (e) {
+		console.log(e);
 		if (e == 'Error: Unable to login!') {
 			res.send({
 				"Success": "This Email is not regestered!"
@@ -77,5 +96,6 @@ router.get('/profile', function (req, res, next) {
 		}
 	});
 });
+
 
 module.exports = router;

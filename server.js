@@ -6,6 +6,8 @@ var session = require('express-session')
 const connectDB = require('./config/db');
 const config = require('config');
 const db = config.get('mongoURI');
+const busboy = require('connect-busboy');
+const busboyBodyParser = require('busboy-body-parser');
 
 
 // Connect to database
@@ -24,13 +26,16 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: false
 }));
-
+app.use(busboy());
+app.use(busboyBodyParser());
 app.use(express.static(__dirname + '/views'));
 
 var index = require('./routes/index');
 app.use('/', index);
 var mobileverification = require('./routes/mobileverification');
 app.use('/mobile', mobileverification);
+var fileUpload = require('./routes/fileupload');
+app.use('/fileUpload', fileUpload);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
