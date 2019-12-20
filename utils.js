@@ -3,7 +3,6 @@ const config = require('config');
 
 module.exports = {
     validateToken: (req, res, next) => {
-        console.log('validateToken');
         const authorizationHeaader = req.headers.authorization;
         let result;
         if (authorizationHeaader) {
