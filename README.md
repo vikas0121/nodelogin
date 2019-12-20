@@ -20,6 +20,6 @@ http://localhost:3000/register
 
 http://localhost:3000/login
 
-http://localhost:3000/fileUpload/delete
-
 http://localhost:3000/fileUpload/upload
+
+http://localhost:3000/fileUpload/delete
