@@ -15,6 +15,10 @@ fileSchema = new Schema({
 	uniqid: {
 		type: Schema.Types.Mixed,
 		trim: true
+	},
+	Key: {
+		type: String,
+		trim: true
 	}
 });
 

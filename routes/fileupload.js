@@ -5,21 +5,31 @@ var uniqid = require('uniqid');
 const validateToken = require('../utils').validateToken;
 const Busboy = require('busboy');
 const AWS = require('aws-sdk');
+var FileUpload = require('../models/file');
 
 
 router.post('/upload', validateToken, async function (req, res, next) {
     // This grabs the additional parameters so in this case passing     
     // in "element1" with a value.
     const email = req.body.email;
-    var file = '';
     var busboy = new Busboy({
         headers: req.headers
     });
     // The file upload has completed
     await busboy.on('finish', async function () {
         console.log('Upload finished');
-        file = req.files.file;
+        var file = req.files.file;
         const fileData = await uploadToS3(file);
+        var fileObj = new FileUpload({
+            location: fileData.Location,
+            Key: fileData.Key,
+            email
+        });
+        fileObj.save(function (err, file) {
+            if (err) {
+                console.log('err', err.errmsg);
+            }
+        });
         res.json({
             fileData
         });
@@ -65,7 +75,7 @@ router.post('/delete', validateToken, async function (req, res, next) {
                 "error": err
             });
         }
-        res.send({
+        res.status(200).send({
             data
         });
     });

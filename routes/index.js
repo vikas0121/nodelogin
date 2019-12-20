@@ -9,7 +9,7 @@ router.get('/', function (req, res, next) {
 });
 
 
-router.post('/', async function (req, res, next) {
+router.post('/register', async function (req, res, next) {
 	var personInfo = req.body;
 	if (!personInfo.email || !personInfo.username || !personInfo.password) {
 		res.send();
@@ -17,8 +17,7 @@ router.post('/', async function (req, res, next) {
 	var newPerson = new User({
 		email: personInfo.email,
 		username: personInfo.username,
-		password: personInfo.password,
-		mobilenumber: personInfo.mobilenumber
+		password: personInfo.password
 	});
 	newPerson.save(function (err, Person) {
 		if (err) {
