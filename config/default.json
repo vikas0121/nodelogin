@@ -1,4 +1,9 @@
 {
   "mongoURI": "mongodb+srv://vikaskumar:nodeapp@cluster0-ldbwp.mongodb.net/test?retryWrites=true&w=majority/nodeloginapp",
-  "baseUrl": "http://localhost:3000"
+  "baseUrl": "http://localhost:3000",
+  "AWS_ACCESS_KEY_ID": "",
+  "AWS_SECRET_ACCESS_KEY": "",
+  "region": "",
+  "AWS_S3_BUCKET": "",
+  "JWT_SECRET": ""
 }
