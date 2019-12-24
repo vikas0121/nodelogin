@@ -3,6 +3,7 @@ var router = express.Router();
 var User = require('../models/user');
 const config = require('config');
 const jwt = require('jsonwebtoken');
+var HttpStatus = require('http-status-codes');
 
 router.get('/', function (req, res, next) {
 	return res.render('index.ejs');
@@ -10,29 +11,49 @@ router.get('/', function (req, res, next) {
 
 
 router.post('/register', async function (req, res, next) {
-	var personInfo = req.body;
-	if (!personInfo.email || !personInfo.username || !personInfo.password) {
-		res.send();
-	}
-	var newPerson = new User({
-		email: personInfo.email,
-		username: personInfo.username,
-		password: personInfo.password
-	});
-	newPerson.save(function (err, Person) {
-		if (err) {
-			console.log('err', err.errmsg);
-			if (err.code === 11000) {
-				res.send({
-					"Success": "Email is already used."
-				});
-			}
-		} else
-			console.log('Success', Person);
-		res.send({
-			"Success": "You are regestered,You can login now."
+	try {
+		var personInfo = req.body;
+		if (!personInfo.email || !personInfo.username || !personInfo.password) {
+			res.status(HttpStatus.BAD_REQUEST).send({
+				status: HttpStatus.BAD_REQUEST,
+				message: "Info is missing"
+
+			});
+		}
+		var newPerson = new User({
+			email: personInfo.email,
+			username: personInfo.username,
+			password: personInfo.password
 		});
-	});
+		// newPerson.save(function (err, Person) {
+		// 	if (err) {
+		// 		// console.log('err', err.errmsg);
+		// 		// if (err.code === 11000) {
+		// 		// 	res.send({
+		// 		// 		"Success": "Email is already used."
+		// 		// 	});
+		// 		// }
+		// 		console.log('hello');
+		// 		throw new Error(err);
+		// 	}
+		// 	res.send({
+		// 		status: HttpStatus.OK,
+		// 		message: "You are regestered,You can login now."
+		// 	});
+		// });
+		const user = await newPerson.save();
+		res.send({
+			status: HttpStatus.OK,
+			message: "You are regestered,You can login now."
+		});
+	} catch (e) {
+		console.log('error', e);
+		res.send({
+			status: HttpStatus.BAD_REQUEST,
+			// message: "This Email is not regestered!",
+			err: e
+		});
+	}
 });
 
 router.get('/login', function (req, res, next) {
@@ -63,20 +84,20 @@ router.post('/login', async function (req, res, next) {
 			token,
 			user
 		}
-		res.status(200).send(result);
-		// res.send({
-		// 	"Success": "Success!"
-		// });
-	} catch (e) {
-		console.log(e);
-		if (e == 'Error: Unable to login!') {
-			res.send({
-				"Success": "This Email is not regestered!"
-			});
-		}
-		res.send({
-			"Success": "Wrong password!"
+		res.status(200).send({
+			status: HttpStatus.OK,
+			message: `Success!`,
+			data: result
 		});
+	} catch (e) {
+		console.log('error', e);
+		// if (e == 'Error: Unable to login!') {
+		res.status(HttpStatus.BAD_REQUEST).send({
+			status: HttpStatus.BAD_REQUEST,
+			// message: "This Email is not regestered!",
+			err: e
+		});
+		//}
 	}
 });
 
